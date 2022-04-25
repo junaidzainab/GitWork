@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Info</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="body">
+        <div class="for">
+            <div class="pus">
+                <h2>Fetch Git User's Details</h2><br>
+                <form>
+                    <input type="text" name="" id="username" placeholder="Username"><br><br>
+                    <button id="btn">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="bdy">
+            <div class="wt">
+                <div class="nav">
+                    <div id="hm">Home</div>
+                    <div>Profile</div>
+                    <div>Messaging</div>
+                    <div>Repository</div>
+                    <div>Statistic</div>
+                    <div>Start</div>
+                    <div id="ni"><img id="myImg2" src=""></div>
+                </div>
+            </div>
+            <div class="page">
+                <div></div>
+                <div class="card">
+                    <div class="img">
+                        <div>
+                            <h4 id="log"></h4>
+                        </div>
+                        <div id="img"><img id="myImg" src=""></div>
+                    </div>
+                    <div class="pd">
+                        <div>
+                            <h3 id="fulName"></h3>
+                        </div><br>
+                        <div class="bl">
+                            <div id="bio"></div>
+                            <div id="locate"></div>
+                        </div>
+                        <div id="ids"></div><br>
+                        <div class="follo">
+                            <div id="fol">
+                                <h5>No. of Public Repository</h5>
+                                <p id="publi_repos"></p>
+                            </div>
+                            <div id="fol">
+                                <h5>No. of Public Gist</h5>
+                                <p id="publi_gist"></p>
+                            </div>
+                        </div>
+                        <div class="follo">
+                            <div id="fol">
+                                <h5>Followers</h5>
+                                <p id="follows"></p>
+                            </div>
+                            <div id="fol">
+                                <h5>Following</h5>
+                                <p id="followin"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="txt">
+                    <div class="add">
+                        <h5>Edit public profile & Url</h5>
+                        <br>
+                        <hr> <br>
+                        <h5>Add profile in another language</h5>
+                    </div>
+                    <div id="cl">
+                        <label>Comment</label><br><br>
+                        <textarea id="comment" name="comment" rows="12" cols="0">
+                            </textarea>
+                        <button type="submit">Send</button>
+                    </div>
+
+                </div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let btn = document.querySelector('#btn')
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            let input = document.querySelector("#username").value;
+            let BodyE = document.querySelector('.bdy')
+            BodyE.style.display = "block"
+            let hide1 = document.querySelector('.for')
+            hide1.style.display = "none";
+
+
+            let url = `https://api.github.com/users/${input}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    let mine = data;
+                    // console.log(mine)
+
+                    let followers = mine.followers ? mine.followers : 'No Data';
+                    let following = mine.following ? mine.following : 'No Data';
+                    let image = mine.avatar_url ? mine.avatar_url : 'No Data';
+                    let location = mine.location ? mine.location : 'No Data';
+                    let public_gists = mine.public_gists ? mine.public_gist : 'No Data';
+                    let public_repos = mine.public_repos ? mine.public_repos : 'No Data';
+
+                    let myImg = document.querySelector("#myImg");
+                    myImg.src = mine.avatar_url;
+
+                    let myImg1 = document.querySelector("#myImg2");
+                    myImg1.src = mine.avatar_url;
+
+                    let name = document.querySelector("#fulName");
+                    name.innerHTML = mine.name;
+
+                    let bio = document.querySelector("#bio");
+                    bio.innerHTML = "Bio: " + mine.bio;
+
+                    let follows = document.querySelector("#follows");
+                    follows.innerHTML = mine.followers;
+
+                    let followin = document.querySelector("#followin");
+                    followin.innerHTML = mine.following;
+
+                    let locate = document.querySelector("#locate");
+                    locate.innerHTML = "Location: " + mine.location
+
+                    let publi_gist = document.querySelector("#publi_gist");
+                    publi_gist.innerHTML = mine.public_gists;
+
+                    let log = document.querySelector("#log");
+                    log.innerHTML = mine.login;
+
+                    let id = document.querySelector("#ids");
+                    id.innerHTML = "ID: " + mine.id;
+
+                    let publi_repos = document.querySelector("#publi_repos");
+                    publi_repos.innerHTML = mine.public_repos;
+
+                })
+        })
+    </script>
+</body>
+
+</html>
